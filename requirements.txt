@@ -1,0 +1,3 @@
+django          # framework
+psycopg2-binary # driver postgresql
+pillow          #untuk olah gambar

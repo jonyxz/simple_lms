@@ -1,0 +1,21 @@
+services:
+  django:
+    container_name: simple_lms
+    build: .
+    volumes:
+      - ./code:/code
+    ports:
+      - "8000:8000"
+    command: sleep infinity
+  postgres:
+    container_name: simple_db
+    image: postgres:13.1
+    environment:
+      POSTGRES_DB: simple_lms
+      POSTGRES_USER: simple_user
+      POSTGRES_PASSWORD: simple_password
+      PGDATA: /var/lib/postgresql/data/
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"

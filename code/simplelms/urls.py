@@ -16,7 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from core.views import index,testing,addData,editData,deleteData
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('', index),
+    path('testing/', testing),
+    path('addData/', addData),
+    path('editData/', editData),
+    path('deleteData/', deleteData),
 ]

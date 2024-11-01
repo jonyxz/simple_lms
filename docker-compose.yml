@@ -10,13 +10,13 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
   postgres:
     container_name: simple_db
-    image: postgres:13.1
+    image: postgres:17.0
     environment:
       POSTGRES_DB: simple_lms
       POSTGRES_USER: simple_user
       POSTGRES_PASSWORD: simple_password
-      PGDATA: /var/lib/postgresql/data/
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - ./postgres:/var/lib/postgresql/data/pgdata
     ports:
-      - "5432:5432"
+      - "5501:5432"

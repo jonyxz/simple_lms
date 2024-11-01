@@ -20,6 +20,7 @@ from core.views import index,testing,addData,editData,deleteData
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("", index, name="index"),
     path('testing/', testing),
     path('addData/', addData),
     path('editData/', editData),

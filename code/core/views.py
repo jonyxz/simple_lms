@@ -142,3 +142,25 @@ def courseDetail(request, course_id):
                 }
 
     return JsonResponse(result)
+
+def userStats(request):
+    users_with_courses = User.objects.filter(course__isnull=False).distinct().count()
+    users_without_courses = User.objects.filter(course__isnull=True).distinct().count()
+    avg_courses_per_user = CourseMember.objects.values('user_id').annotate(course_count=Count('course_id')).aggregate(avg_courses=Avg('course_count'))['avg_courses']
+    user_with_most_courses = CourseMember.objects.values('user_id').annotate(course_count=Count('course_id')).order_by('-course_count').first()
+    user_with_most_courses_detail = User.objects.get(pk=user_with_most_courses['user_id']) if user_with_most_courses else None
+    users_without_following_courses = User.objects.filter(coursemember__isnull=True).distinct()
+
+    stats = {
+        'users_with_courses': users_with_courses,
+        'users_without_courses': users_without_courses,
+        'avg_courses_per_user': avg_courses_per_user,
+        'user_with_most_courses': {
+            'id': user_with_most_courses_detail.id,
+            'username': user_with_most_courses_detail.username,
+            'email': user_with_most_courses_detail.email,
+            'course_count': user_with_most_courses['course_count']
+        } if user_with_most_courses_detail else None,
+        'users_without_following_courses': list(users_without_following_courses.values('id', 'username', 'email'))
+    }
+    return JsonResponse(stats)

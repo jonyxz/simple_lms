@@ -31,6 +31,7 @@ urlpatterns = [
     path('coursememberstat/', courseMemberStat),
     path('coursedetail/<int:course_id>/', courseDetail, name='courseDetail'),
     path('profile/<int:user_id>/', userProfile, name='userProfile'),
+    path('userstat/', userStats, name='userStats'),
 ]
 
 urlpatterns += [path('silk/', include('silk.urls', namespace='silk'))]

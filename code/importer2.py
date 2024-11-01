@@ -15,7 +15,7 @@ from core.models import Course, CourseMember, CourseContent, Comment
 import time
 start_time = time.time()
 
-filepath = './core/csv_data/'
+filepath = './csv_data/'
 
 with open(filepath+'user-data.csv') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -23,10 +23,10 @@ with open(filepath+'user-data.csv') as csvfile:
         for num, row in enumerate(reader):
             if not User.objects.filter(username=row['username']).exists():
                 obj_create.append(User(username=row['username'], 
-                                         password=make_password(row['password']), 
-                                         email=row['email'],
-                                         first_name=row['firstname'],
-                                         last_name=row['lastname']))
+                                        password=make_password(row['password']), 
+                                        email=row['email'],
+                                        first_name=row['firstname'],
+                                        last_name=row['lastname']))
         User.objects.bulk_create(obj_create)
 
 
@@ -36,8 +36,8 @@ with open(filepath+'course-data.csv') as csvfile:
     for num,row in enumerate(reader):
         if not Course.objects.filter(pk=num+1).exists():
             obj_create.append(Course(name=row['name'], price=row['price'],
-                                  description=row['description'], 
-                                  teacher=User.objects.get(pk=int(row['teacher']))))
+                                description=row['description'], 
+                                teacher=User.objects.get(pk=int(row['teacher']))))
     Course.objects.bulk_create(obj_create)
 
 
@@ -58,8 +58,8 @@ with open(filepath+'contents.json') as jsonfile:
     for num, row in enumerate(comments):
         if not CourseContent.objects.filter(pk=num+1).exists():
             obj_create.append(CourseContent(course_id=Course.objects.get(pk=int(row['course_id'])), 
-                                         video_url=row['video_url'], name=row['name'], 
-                                         description=row['description']))
+                                        video_url=row['video_url'], name=row['name'], 
+                                        description=row['description']))
     CourseContent.objects.bulk_create(obj_create)
 
 
@@ -70,9 +70,10 @@ with open(filepath+'comments.json') as jsonfile:
         if int(row['user_id']) > 50:
             row['user_id'] = randint(5, 40)
         if not Comment.objects.filter(pk=num+1).exists():
-            obj_create.append(Comment(content_id=CourseContent.objects.get(pk=int(row['content_id'])), 
-                                   user_id=User.objects.get(pk=int(row['user_id'])), 
-                                   comment=row['comment']))
+            obj_create.append(Comment(content_id=CourseContent.objects.get(pk=int(row['content_id'])),
+                                member_id=CourseMember.objects.get(pk=int(row['user_id'])),
+                                comment=row['comment']
+))
     Comment.objects.bulk_create(obj_create)
 
 print("--- %s seconds ---" % (time.time() - start_time))

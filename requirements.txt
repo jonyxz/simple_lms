@@ -1,3 +1,4 @@
-django          # framework
-psycopg2-binary # driver postgresql
-pillow          #untuk olah gambar
+django==5.1.2          # framework
+psycopg2-binary==2.9.10   # driver postgresql
+pillow==11.0.0           #untuk olah gambar
+django-silk==5.1.0

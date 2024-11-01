@@ -68,6 +68,18 @@ def allCourse(request):
         result.append(record)
     return JsonResponse(result, safe=False)
 
+def userProfile(request,user_id):
+    user = User.objects.get(pk=user_id)
+    courses = Course.objects.filter(teacher=user.id)
+    data_resp = {'id': user.id, 'username': user.username, 'email': user.email, 
+                'fullname': f"{user.first_name} {user.last_name}"}
+    data_resp['courses'] = []
+    for course in courses:
+        record = {'id': course.id, 'name': course.name, 
+                    'description': course.description, 'price': course.price}
+        data_resp['courses'].append(record)
+    return JsonResponse(data_resp, safe=False)
+
 def userCourses(request):
     user = User.objects.get(pk=3)
     courses = Course.objects.filter(teacher=user.id)

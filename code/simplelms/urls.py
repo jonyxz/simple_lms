@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import index,testing,addData,editData,deleteData
+from core.views import index, testing, addData, editData, deleteData, allCourse, userCourses, courseStat, courseMemberStat
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +25,8 @@ urlpatterns = [
     path('addData/', addData),
     path('editData/', editData),
     path('deleteData/', deleteData),
+    path('allCourse/', allCourse),
+    path('userCourses/', userCourses),
+    path('courseStat/', courseStat),
+    path('courseMemberStat/', courseMemberStat),
 ]
